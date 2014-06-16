@@ -980,35 +980,31 @@ Translations of the guide are available in the following languages:
   'test'.upcase
   ```
 
-* Prefer `{...}` over `do...end` for single-line blocks.  Avoid using
-  `{...}` for multi-line blocks (multiline chaining is always
-  ugly). Always use `do...end` for "control flow" and "method
-  definitions" (e.g. in Rakefiles and certain DSLs).  Avoid `do...end`
-  when chaining.
+* Use Weirich Style for `{...}` vs `do...end`: Use `{...}` if you are
+  using the return value and `do...end` if you are using the side
+  effects.
 
   ```Ruby
   names = ['Bozhidar', 'Steve', 'Sarah']
 
-  # bad
+  # good - `puts` is a side effect.
   names.each do |name|
     puts name
   end
 
-  # good
+  # bad
   names.each { |name| puts name }
 
-  # bad
+  # bad - the `.map` is chaining off ther return value of the `select` block.
   names.select do |name|
     name.start_with?('S')
   end.map { |name| name.upcase }
 
   # good
-  names.select { |name| name.start_with?('S') }.map { |name| name.upcase }
+  names.select { |name|
+    name.start_with?('S')
+  }.map { |name| name.upcase }
   ```
-
-  Some will argue that multiline chaining would look OK with the use of {...}, but they should
-  ask themselves - is this code really readable and can the blocks' contents be extracted into
-  nifty methods?
 
 * Consider using explicit block argument to avoid writing block
   literal that just passes its arguments to another block. Beware of
