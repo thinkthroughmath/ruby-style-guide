@@ -2909,6 +2909,23 @@ Translations of the guide are available in the following languages:
 
 * Avoid parameter lists longer than three or four parameters.
 
+* Prefer [Ruby 2 keyword arguments](https://robots.thoughtbot.com/ruby-2-keyword-arguments) when there are parameter lists longer than 2 arguments.
+
+  ```Ruby
+  # bad
+  def some_method(student_id, classroom_id, points = 0, date = Date.today)
+  ...
+  end
+  some_method(31, 283, 5000) # what are these numbers?
+  
+  # good
+  def some_method(student_id:, classroom_id:, points: 0, date: Date.today)
+  ...
+  end
+  some_method(classroom_id: 283, student_id: 31, points: 5000) # we know what the arguments are, don't have to remember the order
+  ```
+  
+
 * If you really need "global" methods, add them to Kernel
   and make them private.
 
